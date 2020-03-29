@@ -10,6 +10,7 @@ rc_add dhcpcd default
 rc_add urandom default
 rc_add rngd default
 rc_add swap default
+rc_add chronyd default
 rc_add metadata default
 rc_add minecraft default
 

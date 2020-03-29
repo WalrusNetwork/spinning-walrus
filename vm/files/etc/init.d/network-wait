@@ -1,0 +1,22 @@
+#!/sbin/openrc-run
+# Copyright 1999-2011 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+depend() {
+    after net
+    provide network-wait
+}
+
+ping_check() {
+    ping -c1 $(route -n | grep 'UG[ \t]' | awk '{print $2}')
+    rc=$?
+}
+
+start() {
+    ping_check;
+    while [ ${rc} -ne 0 ]; do
+        ping_check;
+    done;
+    service chronyd restart &
+    return 0
+}

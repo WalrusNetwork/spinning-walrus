@@ -3,7 +3,7 @@
 description="metadata probing"
 
 depend() {
-    after net
+    after network-wait
     provide metadata
 }
 

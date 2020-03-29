@@ -7,14 +7,16 @@ exec 1>/tmp/logs-minecraft.txt 2>&1
 minecraft_directory=/data/minecraft/config
 
 if [[ -n "$MOTD" ]]; then
+    echo "changing MOTD"
     sed -i '/motd/d' ${minecraft_directory}/server.properties
     echo "motd=${MOTD}" >> ${minecraft_directory}/server.properties
-    elif [[ -n "$SERVERNAME" ]]; then
+elif [[ -n "$SERVERNAME" ]]; then
     sed -i '/motd/d' ${minecraft_directory}/server.properties
     echo "motd=\u00A73Walrus - Private Server - ${SERVERNAME}" >> ${minecraft_directory}/server.properties
 fi
 
 if [[ -n "$OP_USERNAME" && -n "$OP_UUID" ]]; then
+    echo ""
     jq ". += [{uuid: \""$OP_UUID\"", name: \""$OP_USERNAME\"", level: 4, bypassesPlayerLimit: true}]" ${minecraft_directory}/ops.json|sponge ${minecraft_directory}/ops.json
 fi
 
