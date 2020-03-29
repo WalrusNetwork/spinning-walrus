@@ -1,0 +1,4 @@
+description: Custom Alpine image for spinning Walrus
+base_args:
+  GITLAB_OAUTH_TOKEN: secret
+  MAVEN_AUTHORIZATION_TOKEN: secret

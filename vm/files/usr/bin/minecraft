@@ -1,0 +1,46 @@
+#!/bin/ash
+
+exec 3>&1 4>&2
+trap 'exec 2>&4 1>&3' 0 1 2 3
+exec 1>/tmp/logs-minecraft.txt 2>&1
+
+(while true
+    do
+        echo "Starting server.." >> /tmp/logs-minecraft.txt
+        cd /data/minecraft/config
+        java -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90\
+        -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=35 -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -Dusing.aikars.flags=mcflags.emc.gs -jar sportpaper.jar
+        echo "Restarting in 3 seconds, press CTRL+C to stop." >> /tmp/logs-minecraft.txt
+        sleep 3
+done) &
+
+# add op automatically
+
+if [ -f "/run/config/serverinfo/sleepmin" ]; then
+    sleep_min=$(cat /run/config/serverinfo/sleepmin)
+else
+    sleep_min=10
+fi
+
+counter=0
+sleep_10_seconds=$(( $sleep_min*6 ))
+
+sleep 1m
+
+echo "[INFO] Waiting for 0 player on the main server under ${sleep_min} minutes."
+
+while [ $counter -le ${sleep_10_seconds} ]
+do
+    players_number=$(/usr/bin/minecraft-checker)
+    echo "[INFO] There is/are ${players_number} player(s) on the main server and the counter is at $(( $counter/6 )) minute(s)."
+    if [[ $players_number -eq 0 ]]; then # handle when offline
+        counter=$(( $counter + 1 ))
+    else
+        counter=0
+    fi
+    sleep 10s
+done
+
+echo "[WARN] There is nobody on the server for ${sleep_min}, shutting down the Linux server!"
+
+/usr/bin/vultr-cli server delete $(cat /run/config/instance_id)
