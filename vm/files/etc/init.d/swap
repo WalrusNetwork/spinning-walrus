@@ -1,0 +1,15 @@
+#!/sbin/openrc-run
+
+description="enable swap"
+
+start() {
+    fallocate -l 5G /data/swapfile
+    chmod 600 /data/swapfile
+    mkswap /data/swapfile
+    swapon /data/swapfile
+}
+
+stop() {
+    swapoff /data/swapfile
+    rm -f /data/swapfile
+}

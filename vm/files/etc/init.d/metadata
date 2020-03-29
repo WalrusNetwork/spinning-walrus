@@ -1,0 +1,14 @@
+#!/sbin/openrc-run
+
+description="metadata probing"
+
+depend() {
+    after net
+    provide metadata
+}
+
+start() {
+    usr/bin/metadata aws
+    cp /run/config/conf.d/* /etc/conf.d
+    return 0
+}

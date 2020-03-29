@@ -1,12 +1,11 @@
 #!/sbin/openrc-run
 
 description="Managing the Minecraft server"
-user=${user:-root}
-group=${group:-root}
-
-command="/usr/bin/minecraft"
 
 depend() {
-	need net
-	after net
+	after metadata
+}
+
+start() {
+	/usr/bin/minecraft &
 }
