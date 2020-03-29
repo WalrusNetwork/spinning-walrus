@@ -8,7 +8,7 @@ depend() {
 }
 
 ping_check() {
-    ping -c1 $(route -n | grep 'UG[ \t]' | awk '{print $2}')
+    ping -c1 8.8.8.8
     rc=$?
 }
 
