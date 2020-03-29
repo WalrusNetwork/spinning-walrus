@@ -1,5 +1,5 @@
 # Spinning Walrus
-Just spinning it like a Walrus!
+[Just spinning it like a Walrus](https://youtu.be/Ckjzh0PC5fA)!
 ## Description
 This project allows to make a custom Linux image for private game servers ready to be deployed on a Linux server/VPS.
 All the needed files are already included into the Linux image so this makes the deployment really easy.
