@@ -61,7 +61,7 @@ RUN tar xzf vultr.tar.gz -C /usr/bin && rm vultr.tar.gz
 
 WORKDIR /minecraft
 RUN git clone -b private ${GITLAB_CLONE_BASE_URL}/maps/maps.git
-RUN git clone ${GITLAB_CLONE_BASE_URL}/ux-ui/translations.git
+RUN git clone https://github.com/WalrusNetwork/translations.git
 RUN git clone ${GITLAB_CLONE_BASE_URL}/ux-ui/minecraft-ui.git
 RUN git clone ${GITLAB_CLONE_BASE_URL}/infrastructure/config.git
 
