@@ -11,7 +11,7 @@ build:
     - cd ${CI_PROJECT_DIR}/vm
     - bash fetch-env.sh
     - slim build --no-cache -p kvm -f iso .
-    - mv /root/.slim/registry/vm/slim.iso vm/slim.iso
+    - mv /root/.slim/registry/vm/slim.iso slim.iso
   artifacts:
     paths:
     - vm/slim.iso
