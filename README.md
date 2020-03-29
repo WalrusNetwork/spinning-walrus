@@ -1,11 +1,13 @@
 # Spinning Walrus
-[Just spinning it like a Walrus](https://youtu.be/Ckjzh0PC5fA)!
+[Just spin the Walrus!](https://youtu.be/Ckjzh0PC5fA)
 ## Description
 This project allows to make a custom Linux image for private game servers ready to be deployed on a Linux server/VPS.
 All the needed files are already included into the Linux image so this makes the deployment really easy.
 ## Insights
 The project [slim](https://github.com/ottomatica/slim) is used to turn a Docker image into a real bootable Linux image.
+
 Thanks to Docker, it is now fairly easy to build a custom image and modify it later.
+
 Also the program [metadata](https://github.com/linuxkit/linuxkit/blob/master/docs/metadata.md) from [LinuxKit](https://github.com/linuxkit) is used to fetch the configuration needed to start the server for things like the operator and the server name. This metadata/userdata is passed through the API or directly in the user panel if the cloud provider supports it.
 ## Metadata/User data
 An example file is available here: https://gitlab.com/WalrusNetwork/infrastructure/spinningwalrus/-/blob/master/vm/metadata.json
