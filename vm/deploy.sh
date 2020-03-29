@@ -12,7 +12,7 @@ iso_new_status=$(curl -s -H "API-Key: "${VULTR_API_KEY}"" https://api.vultr.com/
 
 while [[ "$iso_new_status" == "pending" ]]
 do
-    sleep 30s
+    sleep 10s
     iso_new_status=$(curl -s -H "API-Key: "${VULTR_API_KEY}"" https://api.vultr.com/v1/iso/list | jq -r ".[] | select(.ISOID==$iso_new_id) | .status")
     echo ${iso_new_status}
 done
