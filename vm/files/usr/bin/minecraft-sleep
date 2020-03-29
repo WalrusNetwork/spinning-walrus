@@ -19,7 +19,9 @@ while [ $counter -le ${sleep_10_seconds} ]
 do
     players_number=$(/usr/bin/minecraft-checker)
     echo "[INFO] There is/are ${players_number} player(s) on the main server and the counter is at $(( $counter/6 )) minute(s)."
-    if [[ $players_number -eq 0 ]]; then # handle when offline
+    if [[ $players_number -eq 0 ]]; then
+        counter=$(( $counter + 1 ))
+    elif [[ $players_number = "offline" ]]; then
         counter=$(( $counter + 1 ))
     else
         counter=0
@@ -29,4 +31,4 @@ done
 
 echo "[WARN] There is nobody on the server for ${SLEEP_MIN}, shutting down the Linux server!"
 
-/usr/bin/vultr-cli server delete $(cat /run/config/instance_id)
+/usr/bin/vultr-cli server delete $(curl http://169.254.169.254/v1/instanceid)

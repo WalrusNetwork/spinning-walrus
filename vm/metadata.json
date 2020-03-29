@@ -3,7 +3,7 @@
         "entries": {
             "minecraft": {
                 "perm": "0600",
-                "content": "OP_USERNAME=unixfox\nOP_UUID=02407912-8bbf-4b7b-a34c-a45339841436\nSERVERNAME=unixfox\nMOTD=hello"
+                "content": "OP_USERNAME=notch\nOP_UUID=069a79f4-44e9-4726-a5be-fca90e38aaf5\nSERVERNAME=notch\nMOTD=hello"
             },
             "minecraft-sleep": {
                 "perm": "0600",

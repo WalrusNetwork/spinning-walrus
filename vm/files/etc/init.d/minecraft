@@ -6,7 +6,15 @@ depend() {
 	after metadata
 }
 
+include () {
+    [[ -f "$1" ]] && export $(cat "$1" | xargs)
+}
+
 start() {
+	include /etc/conf.d/minecraft
+	include /etc/conf.d/minecraft-sleep
+	include /etc/conf.d/minecraft.default
+	include /etc/conf.d/minecraft-sleep.default
 	/usr/bin/minecraft &
 	/usr/bin/minecraft-sleep &
 }

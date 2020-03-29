@@ -45,7 +45,8 @@ COPY --from=metadata /usr/bin/metadata /usr/bin/metadata
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.11/community" >> /etc/apk/repositories
 RUN mkdir -p /lib/apk/db /run
 RUN apk add --update --no-cache --initdb alpine-baselayout apk-tools busybox ca-certificates util-linux \
-    rng-tools dhcpcd openjdk8-jre e2fsprogs git curl jq go moreutils
+    rng-tools dhcpcd openjdk8-jre e2fsprogs curl jq moreutils findutils \
+    wget go git
 
 RUN echo "Welcome to Spinning Walrus!" > /etc/motd
 RUN echo "tty0::respawn:/sbin/agetty -a root -L tty0 38400 vt100" > /etc/inittab
@@ -55,7 +56,7 @@ RUN echo "ttyS0::respawn:/sbin/agetty -a root -L ttyS0 115200 vt100" >> /etc/ini
 RUN mkdir -p /data /minecraft
 
 # get vultr CLI
-RUN wget https://github.com/vultr/vultr-cli/releases/download/v${VULTR_CLI_VERSION}/vultr-cli_${VULTR_CLI_VERSION}_linux_64-bit.tar.gz -O vultr.tar.gz
+RUN wget --quiet https://github.com/vultr/vultr-cli/releases/download/v${VULTR_CLI_VERSION}/vultr-cli_${VULTR_CLI_VERSION}_linux_64-bit.tar.gz -O vultr.tar.gz
 RUN tar xzf vultr.tar.gz -C /usr/bin && rm vultr.tar.gz
 
 WORKDIR /minecraft
@@ -66,14 +67,15 @@ RUN git clone ${GITLAB_CLONE_BASE_URL}/infrastructure/config.git
 
 WORKDIR /minecraft/config
 RUN ash -c "${MAVEN_CURL_CMD} '${MAVEN_EXTENDED_PUBLIC_URL}sportpaper&maven.extension=jar' -o 'sportpaper.jar'"
-#RUN ash -c "${MAVEN_CURL_CMD} '${MAVEN_EXTENDED_PRIVATE_URL}droplet-killer&maven.extension=jar' -o 'walrus-visor.jar'"
+
+WORKDIR /minecraft/config/plugins
 RUN ash -c "${MAVEN_CURL_CMD} '${MAVEN_EXTENDED_PRIVATE_URL}ubiquitous-bukkit&maven.extension=jar' -o 'ubiq.jar'"
 RUN ash -c "${MAVEN_CURL_CMD} '${MAVEN_EXTENDED_PRIVATE_URL}games-core&maven.extension=jar' -o 'games-core.jar'"
 RUN ash -c "${MAVEN_CURL_CMD} '${MAVEN_EXTENDED_PRIVATE_URL}nerve-bukkit&maven.extension=jar' -o 'nerve-bukkit.jar'"
 
-WORKDIR /minecraft/config/GameManager
+WORKDIR /minecraft/config/plugins/GameManager
 RUN mkdir -p components
-WORKDIR /minecraft/config/components
+WORKDIR /minecraft/config/plugins/GameManager/components
 RUN ash -c "${MAVEN_CURL_CMD} '${MAVEN_EXTENDED_PRIVATE_URL}games-octc&maven.extension=jar' -o 'games-octc.jar'"
 
 # Copy local files
@@ -82,9 +84,9 @@ COPY files /
 # build minecraft checker
 RUN go build -o /usr/bin/minecraft-checker /minecraft-checker.go
 # delete not needed packages
-RUN apk del --update --no-cache go git
+RUN apk del --update --no-cache go git wget
 
 # Deleted cached packages and minecraft checker source file
 RUN rm -rf /var/cache/apk/* /minecraft-checker.go
 
-RUN ash -c "echo 'VULTR_API_KEY="${VULTR_API_KEY}"' >> /etc/conf.d/minecraft-sleep"
+RUN ash -c "echo 'VULTR_API_KEY="${VULTR_API_KEY}"' >> /etc/conf.d/minecraft-sleep.default"

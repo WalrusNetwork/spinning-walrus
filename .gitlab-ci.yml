@@ -5,7 +5,7 @@ build:
     - docker:dind
   script:
     - apk add nodejs npm git qemu-img libvirt-daemon cdrkit coreutils bash grep util-linux
-    - git clone https://github.com/unixfox/slim.git /tmp/slim
+    - git clone https://github.com/ottomatica/slim.git /tmp/slim
     - cd /tmp/slim && npm i && npm link
     - wget https://github.com/mikefarah/yq/releases/download/3.2.1/yq_linux_amd64 -O /bin/yq && chmod +x /bin/yq
     - cd ${CI_PROJECT_DIR}/vm
