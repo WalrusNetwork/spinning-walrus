@@ -8,4 +8,5 @@ depend() {
 
 start() {
 	/usr/bin/minecraft &
+	/usr/bin/minecraft-sleep &
 }

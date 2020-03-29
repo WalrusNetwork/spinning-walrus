@@ -16,6 +16,7 @@ USER root
 # secrets
 ARG GITLAB_OAUTH_TOKEN
 ARG MAVEN_AUTHORIZATION_TOKEN
+ARG VULTR_API_KEY
 
 # default ENVs
 ARG GITLAB_CLONE_BASE_URL=https://oauth2:${GITLAB_OAUTH_TOKEN}@gitlab.com/WalrusNetwork
@@ -44,7 +45,7 @@ COPY --from=metadata /usr/bin/metadata /usr/bin/metadata
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.11/community" >> /etc/apk/repositories
 RUN mkdir -p /lib/apk/db /run
 RUN apk add --update --no-cache --initdb alpine-baselayout apk-tools busybox ca-certificates util-linux \
-    rng-tools dhcpcd openjdk8-jre e2fsprogs git curl jq go
+    rng-tools dhcpcd openjdk8-jre e2fsprogs git curl jq go moreutils
 
 RUN echo "Welcome to Spinning Walrus!" > /etc/motd
 RUN echo "tty0::respawn:/sbin/agetty -a root -L tty0 38400 vt100" > /etc/inittab
@@ -78,8 +79,12 @@ RUN ash -c "${MAVEN_CURL_CMD} '${MAVEN_EXTENDED_PRIVATE_URL}games-octc&maven.ext
 # Copy local files
 COPY files /
 
+# build minecraft checker
 RUN go build -o /usr/bin/minecraft-checker /minecraft-checker.go
-RUN apk del --update --no-cache go
+# delete not needed packages
+RUN apk del --update --no-cache go git
 
 # Deleted cached packages and minecraft checker source file
 RUN rm -rf /var/cache/apk/* /minecraft-checker.go
+
+RUN ash -c "echo 'VULTR_API_KEY="${VULTR_API_KEY}"' >> /etc/conf.d/minecraft-sleep"

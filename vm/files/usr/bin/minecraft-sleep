@@ -1,0 +1,32 @@
+#!/bin/ash
+
+exec 3>&1 4>&2
+trap 'exec 2>&4 1>&3' 0 1 2 3
+exec 1>/tmp/logs-minecraft-sleep.txt 2>&1
+
+if [ ! -n "$SLEEP_MIN" ]; then
+    SLEEP_MIN=10
+fi
+
+counter=0
+sleep_10_seconds=$(( $SLEEP_MIN*6 ))
+
+sleep 1m
+
+echo "[INFO] Waiting for 0 player on the main server under ${SLEEP_MIN} minutes."
+
+while [ $counter -le ${sleep_10_seconds} ]
+do
+    players_number=$(/usr/bin/minecraft-checker)
+    echo "[INFO] There is/are ${players_number} player(s) on the main server and the counter is at $(( $counter/6 )) minute(s)."
+    if [[ $players_number -eq 0 ]]; then # handle when offline
+        counter=$(( $counter + 1 ))
+    else
+        counter=0
+    fi
+    sleep 10s
+done
+
+echo "[WARN] There is nobody on the server for ${SLEEP_MIN}, shutting down the Linux server!"
+
+/usr/bin/vultr-cli server delete $(cat /run/config/instance_id)

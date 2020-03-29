@@ -1,0 +1,14 @@
+{
+    "conf.d": {
+        "entries": {
+            "minecraft": {
+                "perm": "0600",
+                "content": "OP_USERNAME=unixfox\nOP_UUID=02407912-8bbf-4b7b-a34c-a45339841436\nSERVERNAME=unixfox\nMOTD=hello"
+            },
+            "minecraft-sleep": {
+                "perm": "0600",
+                "content": "SLEEP_MIN=10"
+            }
+        }
+    }
+}
