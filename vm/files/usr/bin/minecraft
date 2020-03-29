@@ -15,6 +15,12 @@ elif [[ -n "$SERVERNAME" ]]; then
     echo "motd=\u00A73Walrus - Private Server - ${SERVERNAME}" >> ${minecraft_directory}/server.properties
 fi
 
+if [[ -n "$MAX_PLAYERS" ]]; then
+    echo "changing max players"
+    sed -i '/max-players/d' ${minecraft_directory}/server.properties
+    echo "max-players=${MAX_PLAYERS}" >> ${minecraft_directory}/server.properties
+fi
+
 if [[ -n "$OP_USERNAME" && -n "$OP_UUID" ]]; then
     echo ""
     jq ". += [{uuid: \""$OP_UUID\"", name: \""$OP_USERNAME\"", level: 4, bypassesPlayerLimit: true}]" ${minecraft_directory}/ops.json|sponge ${minecraft_directory}/ops.json

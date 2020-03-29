@@ -15,6 +15,7 @@ Explaination of each environment variables:
   - OP_UUID: The uuid (example: `02407912-8bbf-4b7b-a34c-a45339841436`) of the op to add
   - SERVERNAME: the server name which gets added to the properties
   - MOTD: The motd of the Minecraft server
+  - MAX_PLAYERS: The number of slots to allocate
 - `minecraft-sleep` script (delete the server if no one is using it):
   - SLEEP_MIN: The number of minutes before the server gets deleted.
 ## How to build the image
