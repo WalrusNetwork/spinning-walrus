@@ -11,7 +11,7 @@ mc_status=$(/usr/bin/minecraft-checker)
 while [[ "$mc_status" == "offline" ]]
 do
     sleep 10s
-    iso_new_status=$(/usr/bin/minecraft-checker)
+    mc_status=$(/usr/bin/minecraft-checker)
     echo ${mc_status}
 done
 
