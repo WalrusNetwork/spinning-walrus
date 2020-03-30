@@ -1,20 +1,41 @@
 #!/sbin/openrc-run
 
 description="Managing the Minecraft server"
+output_log="/var/log/minecraft.log"
+error_log="/var/log/minecraft.err"
+pidfile="/run/supervisord.pid"
 
 depend() {
 	after metadata
 }
 
-include () {
-    [[ -f "$1" ]] && export $(cat "$1" | xargs)
+start() {
+	minecraft_directory=/data/minecraft/config
+
+	if [[ -n "$MOTD" ]]; then
+		echo "changing MOTD"
+		sed -i '/motd/d' ${minecraft_directory}/server.properties
+		echo "motd=${MOTD}" >> ${minecraft_directory}/server.properties
+	elif [[ -n "$SERVERNAME" ]]; then
+		sed -i '/motd/d' ${minecraft_directory}/server.properties
+		echo "motd=\u00A73Walrus - Private Server - ${SERVERNAME}" >> ${minecraft_directory}/server.properties
+	fi
+
+	if [[ -n "$MAX_PLAYERS" ]]; then
+		echo "changing max players"
+		sed -i '/max-players/d' ${minecraft_directory}/server.properties
+		echo "max-players=${MAX_PLAYERS}" >> ${minecraft_directory}/server.properties
+	fi
+
+	if [[ -n "$OP_USERNAME" && -n "$OP_UUID" ]]; then
+		echo ""
+		jq ". += [{uuid: \""$OP_UUID\"", name: \""$OP_USERNAME\"", level: 4, bypassesPlayerLimit: true}]" ${minecraft_directory}/ops.json|sponge ${minecraft_directory}/ops.json
+	fi
+
+	/usr/bin/supervisord -c /etc/supervisor/supervisord.conf
 }
 
-start() {
-	include /etc/conf.d/minecraft
-	include /etc/conf.d/minecraft-sleep
-	include /etc/conf.d/minecraft.default
-	include /etc/conf.d/minecraft-sleep.default
-	/usr/bin/minecraft &
-	/usr/bin/minecraft-sleep &
+stop() {
+    /usr/bin/supervisorctl stop all
+	/usr/bin/supervisorctl shutdown
 }

@@ -1,0 +1,12 @@
+#!/sbin/openrc-run
+
+description="Checking if the Minecraft server is not utilized."
+command="/usr/bin/minecraft-sleep"
+output_log="/var/log/minecraft-sleep.log"
+error_log="/var/log/minecraft-sleep.err"
+command_background="yes"
+pidfile="/tmp/minecraft-sleep.pid"
+
+depend() {
+	after minecraft
+}

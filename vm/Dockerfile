@@ -45,8 +45,12 @@ COPY --from=metadata /usr/bin/metadata /usr/bin/metadata
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.11/community" >> /etc/apk/repositories
 RUN mkdir -p /lib/apk/db /run
 RUN apk add --update --no-cache --initdb alpine-baselayout apk-tools busybox ca-certificates util-linux \
-    rng-tools dhcpcd openjdk8-jre e2fsprogs curl jq moreutils findutils \
+    rng-tools dhcpcd openjdk8-jre e2fsprogs curl jq moreutils findutils supervisor \
     wget go git
+
+RUN apk add netdata --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+# set netdata to listen to all interfaces
+RUN sed -i 's/localhost/0.0.0.0/' /etc/netdata/netdata.conf
 
 RUN echo "Welcome to Spinning Walrus!" > /etc/motd
 RUN echo "tty0::respawn:/sbin/agetty -a root -L tty0 38400 vt100" > /etc/inittab
@@ -90,3 +94,4 @@ RUN apk del --update --no-cache go git wget
 RUN rm -rf /var/cache/apk/* /minecraft-checker.go
 
 RUN ash -c "echo 'VULTR_API_KEY="${VULTR_API_KEY}"' >> /etc/conf.d/minecraft-sleep.default"
+RUN ash -c "echo 'GRAPHQL_TOKEN="${GRAPHQL_TOKEN}"' >> /etc/conf.d/status-reporter"

@@ -14,6 +14,10 @@ rc_add swap default
 rc_add chronyd default
 rc_add metadata default
 rc_add minecraft default
+rc_add minecraft-sleep default
+rc_add netdata default
+rc_add netdata-fix default
+rc_add status-reporter default
 
 chown -R root:root /root
 

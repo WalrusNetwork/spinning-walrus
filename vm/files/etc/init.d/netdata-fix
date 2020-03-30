@@ -1,0 +1,11 @@
+#!/sbin/openrc-run
+
+description="Just a fix for netdata"
+
+depend() {
+	after netdata
+}
+
+start() {
+	chown -R 0:$(id -g netdata) /usr/share/webapss/netdata
+}
