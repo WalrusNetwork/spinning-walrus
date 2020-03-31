@@ -7,7 +7,7 @@ exec 1>/var/log/minecraft-sleep.txt 2>&1
 touch /tmp/minecraft-sleep.pid
 
 include () {
-    [[ -f "$1" ]] && source "$1"
+    [[ -f "$1" ]] && export $(cat "$1" | xargs)
 }
 
 include /etc/conf.d/minecraft-sleep
@@ -49,5 +49,5 @@ done
 
 echo "[WARN] There is nobody on the server for ${SLEEP_MIN}, shutting down the Linux server!"
 
-/sbin/service stop status-reporter
+/sbin/service status-reporter stop
 /usr/bin/vultr-cli server delete $(curl http://169.254.169.254/v1/instanceid)

@@ -7,7 +7,7 @@ exec 1>/var/log/status-reporter.txt 2>&1
 touch /tmp/status-reporter.pid
 
 include () {
-    [[ -f "$1" ]] && source "$1"
+    [[ -f "$1" ]] && export $(cat "$1" | xargs)
 }
 
 include /etc/conf.d/status-reporter
