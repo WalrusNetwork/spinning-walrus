@@ -6,6 +6,13 @@ exec 1>/var/log/status-reporter.txt 2>&1
 
 touch /tmp/status-reporter.pid
 
+include () {
+    [[ -f "$1" ]] && source "$1"
+}
+
+include /etc/conf.d/status-reporter
+include /etc/conf.d/status-reporter.default
+
 mc_status=$(/usr/bin/minecraft-checker)
 
 while [[ "$mc_status" == "offline" ]]

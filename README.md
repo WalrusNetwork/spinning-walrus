@@ -18,6 +18,8 @@ Explaination of each environment variables:
   - SERVERNAME: the server name which gets added to the properties
   - MOTD: The motd of the Minecraft server
   - MAX_PLAYERS: The number of slots to allocate
+  - ONLINE_MODE: Disable or enable online mode
+  - BUNGEECORD: Disable or enable bungeecord support
 - `minecraft-sleep` script (delete the server if no one is using it):
   - SLEEP_MIN: The number of minutes before the server gets deleted.
 ## How to build the image

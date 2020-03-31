@@ -10,6 +10,7 @@ include () {
     [[ -f "$1" ]] && source "$1"
 }
 
+include /etc/conf.d/minecraft-sleep
 include /etc/conf.d/minecraft-sleep.default
 
 if [ ! -n "$SLEEP_MIN" ]; then
@@ -19,7 +20,16 @@ fi
 counter=0
 sleep_10_seconds=$(( $SLEEP_MIN*6 ))
 
-sleep 1m
+echo "waiting for the server to start"
+
+mc_status=$(/usr/bin/minecraft-checker)
+
+while [[ "$mc_status" == "offline" ]]
+do
+    sleep 10s
+    mc_status=$(/usr/bin/minecraft-checker)
+    echo ${mc_status}
+done
 
 echo "[INFO] Waiting for 0 player on the main server under ${SLEEP_MIN} minutes."
 

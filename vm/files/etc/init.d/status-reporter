@@ -7,7 +7,6 @@ command_background="yes"
 pidfile="/tmp/status-reporter.pid"
 
 depend() {
-	need minecraft
 	after minecraft
 }
 

@@ -27,6 +27,17 @@ start() {
 		echo "max-players=${MAX_PLAYERS}" >> ${minecraft_directory}/server.properties
 	fi
 
+	if [[ -n "$ONLINE_MODE" ]]; then
+		echo "changing the online mode"
+		sed -i '/online-mode/d' ${minecraft_directory}/server.properties
+		echo "online-mode=${ONLINE_MODE}" >> ${minecraft_directory}/server.properties
+	fi
+
+	if [[ -n "$BUNGEECORD" ]]; then
+		echo "changing bungeecord parameter"
+		yq w -i ${minecraft_directory}/server.properties spigot.settings.bungeecord ${BUNGEECORD}
+	fi
+
 	if [[ -n "$OP_USERNAME" && -n "$OP_UUID" ]]; then
 		echo ""
 		jq ". += [{uuid: \""$OP_UUID\"", name: \""$OP_USERNAME\"", level: 4, bypassesPlayerLimit: true}]" ${minecraft_directory}/ops.json|sponge ${minecraft_directory}/ops.json

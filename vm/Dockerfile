@@ -47,6 +47,7 @@ RUN mkdir -p /lib/apk/db /run
 RUN apk add --update --no-cache --initdb alpine-baselayout apk-tools busybox ca-certificates util-linux \
     rng-tools dhcpcd openjdk8-jre e2fsprogs curl jq moreutils findutils supervisor \
     wget go git
+RUN wget --quiet https://github.com/mikefarah/yq/releases/download/3.2.1/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
 
 RUN apk add netdata --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
 # set netdata to listen to all interfaces
