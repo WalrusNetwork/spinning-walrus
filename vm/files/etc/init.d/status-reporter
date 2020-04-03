@@ -5,6 +5,7 @@ output_log="/var/log/status-reporter.log"
 error_log="/var/log/status-reporter.err"
 command_background="yes"
 pidfile="/tmp/status-reporter.pid"
+command="/usr/bin/status-reporter"
 
 depend() {
 	after minecraft
