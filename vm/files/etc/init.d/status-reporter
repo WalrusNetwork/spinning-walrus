@@ -11,10 +11,10 @@ depend() {
 }
 
 stop() {
-    /usr/bin/curl \
-  		-X POST \
-  		-H "Content-Type: application/json" \
-		-H "Authorization: token "${GRAPHQL_TOKEN}"" \
-  		--data "\"query\": { mutation(destroyServer(id: "$(curl http://169.254.169.254/v1/instanceid)")) }" \
-  		https://new.walrus.gg # move that to the script
+	/usr/bin/curl \
+      	-X POST \
+      	-H "Content-Type: application/json" \
+    	-H "authorization: Bearer "${GRAPHQL_TOKEN}"" \
+    	-d "{ \"query\": \"mutation { destroyServer(id: "$(curl http://169.254.169.254/v1/instanceid)") }\" }" \
+      	https://new.walrus.gg/query # move that to the script
 }

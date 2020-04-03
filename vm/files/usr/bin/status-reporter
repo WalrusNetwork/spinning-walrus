@@ -23,10 +23,10 @@ do
 done
 
 /usr/bin/curl \
-  		-X POST \
-  		-H "Content-Type: application/json" \
-		-H "Authorization: Bearer "${GRAPHQL_TOKEN}"" \
-  		--data '{ "mutation": "{ serverReady(id: '"$(curl http://169.254.169.254/v1/instanceid)"') }" }' \
-  		https://new.walrus.gg
+      	-X POST \
+      	-H "Content-Type: application/json" \
+    	-H "authorization: Bearer "${GRAPHQL_TOKEN}"" \
+    	-d "{ \"query\": \"mutation { serverReady(id: "$(curl http://169.254.169.254/v1/instanceid)") }\" }" \
+      	https://new.walrus.gg/query
 
 sleep infinity
