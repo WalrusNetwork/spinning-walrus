@@ -46,7 +46,7 @@ COPY --from=metadata /usr/bin/metadata /usr/bin/metadata
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.11/community" >> /etc/apk/repositories
 RUN mkdir -p /lib/apk/db /run
 RUN apk add --update --no-cache --initdb alpine-baselayout apk-tools busybox ca-certificates util-linux \
-    rng-tools dhcpcd openjdk8-jre e2fsprogs curl jq moreutils findutils supervisor \
+    rng-tools dhcpcd openjdk8-jre e2fsprogs curl jq moreutils findutils supervisor nano \
     wget go git
 RUN wget --quiet https://github.com/mikefarah/yq/releases/download/3.2.1/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
 
