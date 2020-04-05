@@ -46,7 +46,7 @@ COPY --from=metadata /usr/bin/metadata /usr/bin/metadata
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.11/community" >> /etc/apk/repositories
 RUN mkdir -p /lib/apk/db /run
 RUN apk add --update --no-cache --initdb alpine-baselayout apk-tools busybox ca-certificates util-linux \
-    rng-tools dhcpcd openjdk8-jre e2fsprogs curl jq moreutils findutils supervisor nano \
+    rng-tools dhcpcd openjdk8-jre e2fsprogs curl jq moreutils findutils supervisor nano openssh \
     wget go git
 RUN wget --quiet https://github.com/mikefarah/yq/releases/download/3.2.1/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
 
@@ -57,6 +57,10 @@ RUN sed -i 's/localhost/0.0.0.0/' /etc/netdata/netdata.conf
 RUN echo "Welcome to Spinning Walrus!" > /etc/motd
 RUN echo "tty0::respawn:/sbin/agetty -a root -L tty0 38400 vt100" > /etc/inittab
 RUN echo "ttyS0::respawn:/sbin/agetty -a root -L ttyS0 115200 vt100" >> /etc/inittab
+
+# harden SSH security
+RUN sed -i "s/.*PubkeyAuthentication.*/PubkeyAuthentication yes/g" /etc/ssh/sshd_config
+RUN sed -i "s/.*PasswordAuthentication.*/PasswordAuthentication no/g" /etc/ssh/sshd_config
 
 # create data and minecraft directories
 RUN mkdir -p /data /minecraft
