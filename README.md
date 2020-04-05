@@ -11,9 +11,15 @@ Thanks to Docker, it is now fairly easy to build a custom image and modify it la
 Also the program [metadata](https://github.com/linuxkit/linuxkit/blob/master/docs/metadata.md) from [LinuxKit](https://github.com/linuxkit) is used to fetch the configuration needed to start the server for things like the operator and the server name. This metadata/userdata is passed through the API or directly in the user panel if the cloud provider supports it.
 ## Monitoring
 ### Netdata
-The program [Netdata](https://www.netdata.cloud) is available on the port 19999 of each server. To access it you just need to type the ip of the server then followed by the 19999 port in your browser (exemple: unixfox.walrus.gg:19999).
+The program [Netdata](https://www.netdata.cloud) is available on the port 19999 of each server. To access it you just need to type the ip of the server followed by the 19999 port in your browser (exemple: `unixfox.walrus.gg:19999`).
 ### Shell access (console/SSH)
-If you need a shell to the server, you can open the console on Vultr panel or add your SSH key to the authorized_keys file: https://gitlab.com/WalrusNetwork/infrastructure/spinningwalrus/-/blob/master/vm/files/root/.ssh/authorized_keys 
+If you need a shell to the server, you can open the console on Vultr panel or add your SSH key to the authorized_keys file: https://gitlab.com/WalrusNetwork/infrastructure/spinningwalrus/-/blob/master/vm/files/root/.ssh/authorized_keys
+### Minecraft server console
+Get shell access to the server then:
+```
+supervisorctl fg minecraft
+```
+To exit the console: `CTRL + C` (you may need to do it twice to exit the console).
 ## Metadata/User data
 An example file is available here: https://gitlab.com/WalrusNetwork/infrastructure/spinningwalrus/-/blob/master/vm/metadata.json
 Explaination of each environment variables:
