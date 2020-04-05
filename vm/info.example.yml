@@ -3,3 +3,4 @@ base_args:
   GITLAB_OAUTH_TOKEN: secret
   MAVEN_AUTHORIZATION_TOKEN: secret
   VULTR_API_KEY: secret
+  GRAPHQL_TOKEN: secret
