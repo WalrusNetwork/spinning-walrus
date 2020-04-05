@@ -58,10 +58,6 @@ RUN echo "Welcome to Spinning Walrus!" > /etc/motd
 RUN echo "tty0::respawn:/sbin/agetty -a root -L tty0 38400 vt100" > /etc/inittab
 RUN echo "ttyS0::respawn:/sbin/agetty -a root -L ttyS0 115200 vt100" >> /etc/inittab
 
-# harden SSH security
-RUN sed -i "s/.*PubkeyAuthentication.*/PubkeyAuthentication yes/g" /etc/ssh/sshd_config
-RUN sed -i "s/.*PasswordAuthentication.*/PasswordAuthentication no/g" /etc/ssh/sshd_config
-
 # create data and minecraft directories
 RUN mkdir -p /data /minecraft
 
@@ -92,6 +88,13 @@ RUN ash -c "${MAVEN_CURL_CMD} '${MAVEN_EXTENDED_PRIVATE_URL}games-octc&maven.ext
 
 # Copy local files
 COPY files /
+
+# harden SSH security and fix SSH
+RUN sed -i "s/.*PubkeyAuthentication.*/PubkeyAuthentication yes/g" /etc/ssh/sshd_config
+RUN sed -i "s/.*PasswordAuthentication.*/PasswordAuthentication no/g" /etc/ssh/sshd_config
+RUN chmod 0700 /root/.ssh
+RUN sed -i 's/root:!/root:*/' /etc/shadow
+RUN chmod 600 /root/.ssh/authorized_keys
 
 # build minecraft checker
 RUN go build -o /usr/bin/minecraft-checker /minecraft-checker.go
