@@ -75,8 +75,7 @@ WORKDIR /minecraft/config
 RUN ash -c "${MAVEN_CURL_CMD} '${MAVEN_EXTENDED_PUBLIC_URL}sportpaper&maven.extension=jar' -o 'sportpaper.jar'"
 
 WORKDIR /minecraft/config/plugins
-RUN ash -c "${MAVEN_CURL_CMD} 'http://maven.walrus.gg/repository/walrus-private/network/walrus/ubiquitous-bukkit/1.0.0-SNAPSHOT/ubiquitous-bukkit-1.0.0-20200324.112751-10.jar' -o 'ubiq.jar'"
-#RUN ash -c "${MAVEN_CURL_CMD} '${MAVEN_EXTENDED_PRIVATE_URL}ubiquitous-bukkit&maven.extension=jar' -o 'ubiq.jar'"
+RUN ash -c "${MAVEN_CURL_CMD} '${MAVEN_EXTENDED_PRIVATE_URL}ubiquitous-bukkit&maven.extension=jar' -o 'ubiq.jar'"
 RUN ash -c "${MAVEN_CURL_CMD} '${MAVEN_EXTENDED_PRIVATE_URL}walrus-visor&maven.extension=jar' -o 'walrus-visor.jar'"
 RUN ash -c "${MAVEN_CURL_CMD} '${MAVEN_EXTENDED_PRIVATE_URL}games-core&maven.extension=jar' -o 'games-core.jar'"
 RUN ash -c "${MAVEN_CURL_CMD} '${MAVEN_EXTENDED_PRIVATE_URL}nerve-bukkit&maven.extension=jar' -o 'nerve-bukkit.jar'"
