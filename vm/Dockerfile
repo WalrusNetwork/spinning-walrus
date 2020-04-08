@@ -21,7 +21,7 @@ ARG GRAPHQL_TOKEN
 
 # default ENVs
 ARG GITLAB_CLONE_BASE_URL=https://oauth2:${GITLAB_OAUTH_TOKEN}@gitlab.com/WalrusNetwork
-ARG MAVEN_CURL_CMD="curl -s -L -XGET -H 'Authorization: Basic ${MAVEN_AUTHORIZATION_TOKEN}'"
+ARG MAVEN_CURL_CMD="curl -s -f -L -XGET -H 'Authorization: Basic ${MAVEN_AUTHORIZATION_TOKEN}'"
 ARG MAVEN_BASE_URL=https://maven.walrus.gg/service/rest/v1/search/assets/download
 ARG MAVEN_EXTENDED_PRIVATE_URL=${MAVEN_BASE_URL}?sort=version&repository=walrus-private&maven.groupId=network.walrus&maven.artifactId=
 ARG MAVEN_EXTENDED_PUBLIC_URL=${MAVEN_BASE_URL}?sort=version&repository=walrus-public&maven.groupId=network.walrus&maven.artifactId=
