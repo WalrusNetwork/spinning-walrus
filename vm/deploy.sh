@@ -10,6 +10,8 @@ iso_download_url=$(curl -F "file=@vm/slim.iso" https://file.io/?expires=1h | jq 
 iso_new_id=$(curl -s -H "API-Key: "${VULTR_API_KEY}"" https://api.vultr.com/v1/iso/create_from_url --data "url="${iso_download_url}"" | jq -r ".ISOID")
 iso_new_status=$(curl -s -H "API-Key: "${VULTR_API_KEY}"" https://api.vultr.com/v1/iso/list | jq -r ".[] | select(.ISOID==$iso_new_id) | .status")
 
+echo ${iso_new_status}
+
 while [[ "$iso_new_status" == "pending" ]]
 do
     sleep 10s
