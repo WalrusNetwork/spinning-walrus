@@ -6,7 +6,7 @@ if [ ! -n "$VULTR_API_KEY" ]; then
 fi
 
 iso_original_id=$(curl -s -H "API-Key: "${VULTR_API_KEY}"" https://api.vultr.com/v1/iso/list | jq ".[] | select(.filename==\"slim.iso\")" | jq -r ".ISOID")
-iso_download_url=$(curl -F "file=@vm/slim.iso" https://file.io/?expires=1h | jq -r '.link')
+iso_download_url=$(curl --retry 999 --retry-max-time 0 -F "file=@vm/slim.iso" https://file.io/?expires=1h | jq -r '.link')
 iso_new_id=$(curl -s -H "API-Key: "${VULTR_API_KEY}"" https://api.vultr.com/v1/iso/create_from_url --data "url="${iso_download_url}"" | jq -r ".ISOID")
 iso_new_status=$(curl -s -H "API-Key: "${VULTR_API_KEY}"" https://api.vultr.com/v1/iso/list | jq -r ".[] | select(.ISOID==$iso_new_id) | .status")
 
