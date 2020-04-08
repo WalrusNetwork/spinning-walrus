@@ -48,7 +48,7 @@ RUN mkdir -p /lib/apk/db /run
 RUN apk add --update --no-cache --initdb alpine-baselayout apk-tools busybox ca-certificates util-linux \
     rng-tools dhcpcd openjdk8-jre e2fsprogs curl jq moreutils findutils supervisor nano openssh htop \
     wget go git
-RUN wget --quiet https://github.com/mikefarah/yq/releases/download/3.2.1/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
+RUN curl -s -f https://github.com/mikefarah/yq/releases/download/3.2.1/yq_linux_amd64 -o /usr/bin/yq && chmod +x /usr/bin/yq
 
 RUN apk add netdata --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
 # set netdata to listen to all interfaces
@@ -62,7 +62,7 @@ RUN echo "ttyS0::respawn:/sbin/agetty -a root -L ttyS0 115200 vt100" >> /etc/ini
 RUN mkdir -p /data /minecraft
 
 # get vultr CLI
-RUN wget --quiet https://github.com/vultr/vultr-cli/releases/download/v${VULTR_CLI_VERSION}/vultr-cli_${VULTR_CLI_VERSION}_linux_64-bit.tar.gz -O vultr.tar.gz
+RUN curl -s -f https://github.com/vultr/vultr-cli/releases/download/v${VULTR_CLI_VERSION}/vultr-cli_${VULTR_CLI_VERSION}_linux_64-bit.tar.gz -o vultr.tar.gz
 RUN tar xzf vultr.tar.gz -C /usr/bin && rm vultr.tar.gz
 
 WORKDIR /minecraft
