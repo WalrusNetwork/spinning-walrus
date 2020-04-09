@@ -5,7 +5,7 @@ if [ ! -n "$VULTR_API_KEY" ]; then
     exit 1
 fi
 
-ngrok http -log=stdout file://$(pwd)/vm > /dev/null &
+ngrok http -log=stdout file://$(pwd)/vm &
 
 sleep 15s
 
