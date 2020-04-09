@@ -20,6 +20,6 @@ deploy:
   image: alpine:latest
   stage: deploy
   script:
-    - apk add jq curl bash
+    - apk add jq curl bash python3
     - wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.tgz && tar xzf ngrok-stable-linux-amd64.tgz -C /usr/bin && rm ngrok-stable-linux-amd64.tgz
     - bash vm/deploy.sh
